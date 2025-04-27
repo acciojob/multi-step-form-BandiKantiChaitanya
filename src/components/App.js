@@ -50,7 +50,7 @@ const App = () => {
         <form action="" onSubmit={handleSubmit} >
           {
             currentStep===1 &&
-            <div>
+            <div id="step1" >
           <h2>Customer details</h2>
           <div>
             <label >First Name:</label><br />

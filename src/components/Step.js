@@ -23,7 +23,7 @@ function Step({handlePrevious,handleNext,currentStep,data,setData}) {
     <div>
         {
             currentStep===2 &&(
-            <div>
+            <div id='step2' >
                 <h2>Car details</h2>
           <div>
             <label >Car Model:</label><br />
@@ -39,7 +39,7 @@ function Step({handlePrevious,handleNext,currentStep,data,setData}) {
         }
 
           { currentStep===3 &&
-            <div>
+            <div id='step3' >
             <h2>Card details</h2>
             <div>
               <label >Card Info:</label><br />
