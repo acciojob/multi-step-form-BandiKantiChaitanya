@@ -20,7 +20,7 @@ function Step({handlePrevious,handleNext,currentStep,data,setData}) {
     }
     
   return (
-    <div>
+    <>
         {
             currentStep===2 &&(
             <div id='step2' >
@@ -53,7 +53,7 @@ function Step({handlePrevious,handleNext,currentStep,data,setData}) {
             </div>
             </div>
           }
-    </div>
+    </>
   )
 }
 
