@@ -1,85 +1,60 @@
-import React from "react";
+import React, { useState } from 'react'
 
-function Step({ step, formData, onChange, onNext, onPrevious, onSubmit }) {
-    return (
-      <div>
-        <div id="step1" style={{ display: step === 1 ? 'block' : 'none' }}>
-          <h2>Step 1: Personal Information</h2>
-          <label>
-            First Name:
-            <input
-              type="text"
-              id="first_name"
-              value={formData.first_name}
-              onChange={onChange}
-            />
-          </label>
-          <br />
-          <label>
-            Last Name:
-            <input
-              type="text"
-              id="last_name"
-              value={formData.last_name}
-              onChange={onChange}
-            />
-          </label>
-          {/* Add Next button for Step 1 */}
-          <button type="button" onClick={onNext}>Next</button>
-        </div>
-   
-        <div id="step2" style={{ display: step === 2 ? 'block' : 'none' }}>
-          <h2>Step 2: Car Information</h2>
-          <label>
-            Car Model:
-            <input
-              type="text"
-              id="model"
-              value={formData.model}
-              onChange={onChange}
-            />
-          </label>
-          <br />
-          <label>
-            Car Price:
-            <input
-              type="text"
-              id="car_price"
-              value={formData.car_price}
-              onChange={onChange}
-            />
-          </label>
-          {/* Add Previous and Next buttons for Step 2 */}
-          <button type="button" onClick={onPrevious}>Previous</button>
-          <button type="button" onClick={onNext}>Next</button>
-        </div>
-   
-        <div id="step3" style={{ display: step === 3 ? 'block' : 'none' }}>
-          <h2>Step 3: Payment Information</h2>
-          <label>
-            Card Information:
-            <input
-              type="text"
-              id="card_info"
-              value={formData.card_info}
-              onChange={onChange}
-            />
-          </label>
-          <br />
-          <label>
-            Expiry Date:
-            <input
-              type="text"
-              id="expiry_date"
-              value={formData.expiry_date}
-              onChange={onChange}
-            />
-          </label>
-          {/* Add Previous and Submit buttons for Step 3 */}
-          <button type="button" onClick={onPrevious}>Previous</button>
-          <button type="button" onClick={onSubmit}>Submit</button>
-        </div>
-      </div>
-    );
-  }
-  export default Step;
+function Step({handlePrevious,handleNext,currentStep,data,setData}) {
+
+    const [errors, setErrors] = useState({})
+     
+    function handleCardInfoChange(e){
+        const { name, value } = e.target;
+        setData({ ...data, [name]: value });
+
+        let errorMessage = '';
+        if (name === 'card_info' && value.length !== 12) {
+            errorMessage = 'Credit card number must be exactly 12 digits long.';
+          }
+
+        if(name=== 'expiry_date' && !/^\d{2}\/\d{2}$/.test(value)){
+            errorMessage = 'Expiration date must be in the format MM/YY';
+        }
+        setErrors({ ...errors, [name]: errorMessage });
+    }
+    
+  return (
+    <>
+        {
+            currentStep===2 &&(
+            <div id='step2' >
+                <h2>Car details</h2>
+          <div>
+            <label >Car Model:</label><br />
+            <input type="text" name="model" id="model"  value={data.model} onChange={(e) => setData({ ...data, model: e.target.value })}  /><br />
+            <label >Car Price:</label><br />
+            <input type="number" name="car_price" id="car_price" value={data.car_price} onChange={(e) => setData({ ...data, car_price: e.target.value })}   /><br />
+            <button type="button" onClick={handlePrevious}  >Previous</button>
+            <button type="button" onClick={handleNext}  >Next</button>
+          </div>
+            </div>
+            
+            )
+        }
+
+          { currentStep===3 &&
+            <div id='step3' >
+            <h2>Card details</h2>
+            <div>
+              <label >Card Info:</label><br />
+              <input type="number" name="card_info" id="card_info"  value={data.card_info} onChange={handleCardInfoChange}  /><br />
+              {errors.card_info && <span style={{ color: 'red' }}>{errors.card_info}</span>}<br />
+              <label >Expiration Date:</label><br /> 
+              <input type="text" name="expiry_date" id="expiry_date"  value={data.expiry_date} onChange={handleCardInfoChange}    /><br />
+              {errors.expiry_date && <span style={{ color: 'red' }}>{errors.expiry_date}</span>}<br />
+              <button type="button" onClick={handlePrevious}  >Previous</button>
+              <button type="submit"    >Submit</button>
+            </div>
+            </div>
+          }
+    </>
+  )
+}
+
+export default Step
